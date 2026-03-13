@@ -1,6 +1,12 @@
 package com.example.zadanie_bazydanych;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity (tableName = "tabela_ksiazki")
 public class Ksiazki {
+    @PrimaryKey(autoGenerate = true
+    )
     private int id;
     private String tytul, autor;
     private int iloscStron;
