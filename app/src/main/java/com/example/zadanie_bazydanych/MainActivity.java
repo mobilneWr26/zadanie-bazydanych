@@ -16,14 +16,13 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private EditText autorInput, tytulInput, cenaInput, stronyInput;
-    private Button dodajBtn, usunBtn, zapiszBtn;
+    private Button dodajBtn, zapiszBtn;
     private ListView listaKsiazek;
     private Ksiazki edytowanaKsiazka = null;
 
     private KsiazkiBazaDanych baza;
     private ArrayAdapter<String> adapter;
     private List<Ksiazki> ksiazkiLista = new ArrayList<>();
-    private int wybranaPozycja = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,17 +35,18 @@ public class MainActivity extends AppCompatActivity {
         stronyInput = findViewById(R.id.strony);
 
         dodajBtn = findViewById(R.id.dodaj);
-        usunBtn = findViewById(R.id.usun);
         zapiszBtn = findViewById(R.id.zapisz);
         listaKsiazek = findViewById(R.id.lista);
+
+        // na początku przycisk zapisz jest niewidoczny
+        zapiszBtn.setVisibility(View.GONE);
 
         baza = KsiazkiBazaDanych.zwrocInstancjeBazyDanych(this);
 
         odswiezListe();
 
-        // Dodawanie książki
-        dodajBtn.setOnClickListener(
-                new View.OnClickListener() {
+        // Dodawanie nowej książki
+        dodajBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String autor = autorInput.getText().toString();
@@ -62,33 +62,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Usuwanie książki
-        usunBtn.setOnClickListener(
-                new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (wybranaPozycja != -1) {
-                    baza.ksiazkiDao().usunKsiazke(ksiazkiLista.get(wybranaPozycja));
-                    wybranaPozycja = -1;
-                    odswiezListe();
-                }
-            }
-        });
-
-        // Kliknięcie na element listy
-        listaKsiazek.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
+        // Kliknięcie zwykłe – edycja książki
+        listaKsiazek.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                wybranaPozycja = position;
-            }
-        });
-
-        // Długie kliknięcie – edycja
-        listaKsiazek.setOnItemLongClickListener(
-                new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 edytowanaKsiazka = ksiazkiLista.get(position);
 
                 autorInput.setText(edytowanaKsiazka.autor);
@@ -96,13 +73,32 @@ public class MainActivity extends AppCompatActivity {
                 cenaInput.setText(String.valueOf(edytowanaKsiazka.cena));
                 stronyInput.setText(String.valueOf(edytowanaKsiazka.liczbaStron));
 
+                // pokaż przycisk zapisz tylko przy edycji
+                zapiszBtn.setVisibility(View.VISIBLE);
+            }
+        });
+
+        // Długie kliknięcie – usuwa książkę od razu
+        listaKsiazek.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Ksiazki doUsuniecia = ksiazkiLista.get(position);
+                baza.ksiazkiDao().usunKsiazke(doUsuniecia);
+
+                // jeśli edytowana książka była tą usuniętą – ukryj przycisk zapisz i wyczyść pola
+                if (edytowanaKsiazka == doUsuniecia) {
+                    edytowanaKsiazka = null;
+                    zapiszBtn.setVisibility(View.GONE);
+                    wyczyscPola();
+                }
+
+                odswiezListe();
                 return true;
             }
         });
 
-        // Zapisanie edytowanej książki
-        zapiszBtn.setOnClickListener(
-                new View.OnClickListener() {
+        // Zapisanie zmian w książce
+        zapiszBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (edytowanaKsiazka != null) {
@@ -114,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                     baza.ksiazkiDao().aktualizujKsiazke(edytowanaKsiazka);
 
                     edytowanaKsiazka = null;
-
+                    zapiszBtn.setVisibility(View.GONE);
                     wyczyscPola();
                     odswiezListe();
                 }
