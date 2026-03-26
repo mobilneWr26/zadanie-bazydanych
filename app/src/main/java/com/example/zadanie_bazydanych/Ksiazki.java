@@ -3,21 +3,22 @@ package com.example.zadanie_bazydanych;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity (tableName = "tabela_ksiazki")
+@Entity(tableName = "ksiazki")
 public class Ksiazki {
-    @PrimaryKey(autoGenerate = true
-    )
-    private int id;
-    private String tytul, autor;
-    private int iloscStron;
-    private double cena;
 
-    public Ksiazki(int id, String tytul, String autor, int iloscStron, double cena) {
-        this.id = id;
-        this.tytul = tytul;
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+
+    public String autor;
+    public String tytul;
+    public double cena;
+    public int liczbaStron;
+
+    public Ksiazki(String autor, String tytul, double cena, int liczbaStron) {
         this.autor = autor;
-        this.iloscStron = iloscStron;
+        this.tytul = tytul;
         this.cena = cena;
+        this.liczbaStron = liczbaStron;
     }
 
     public int getId() {
@@ -26,22 +27,6 @@ public class Ksiazki {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public double getCena() {
-        return cena;
-    }
-
-    public void setCena(double cena) {
-        this.cena = cena;
-    }
-
-    public int getIloscStron() {
-        return iloscStron;
-    }
-
-    public void setIloscStron(int iloscStron) {
-        this.iloscStron = iloscStron;
     }
 
     public String getAutor() {
@@ -60,14 +45,30 @@ public class Ksiazki {
         this.tytul = tytul;
     }
 
+    public double getCena() {
+        return cena;
+    }
+
+    public void setCena(double cena) {
+        this.cena = cena;
+    }
+
+    public int getLiczbaStron() {
+        return liczbaStron;
+    }
+
+    public void setLiczbaStron(int liczbaStron) {
+        this.liczbaStron = liczbaStron;
+    }
+
     @Override
     public String toString() {
         return "Ksiazki{" +
                 "id=" + id +
-                ", tytul='" + tytul + '\'' +
                 ", autor='" + autor + '\'' +
-                ", iloscStron=" + iloscStron +
+                ", tytul='" + tytul + '\'' +
                 ", cena=" + cena +
+                ", liczbaStron=" + liczbaStron +
                 '}';
     }
 }

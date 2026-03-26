@@ -1,69 +1,57 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:padding="16dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-
-    <LinearLayout
+    <EditText
+        android:id="@+id/autor"
+        android:hint="Autor"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="50dp">
+        android:layout_height="wrap_content"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    <EditText
+        android:id="@+id/tytul"
+        android:hint="Tytuł"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
-            <EditText
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/tytul"
-                android:layout_weight="1"
-                android:hint="Podaj tytuł..."
-                android:textSize="20dp"/>
-            <EditText
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/autor"
-                android:textSize="20dp"
-                android:hint="Podaj autora..."/>
-            <EditText
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/cena"
-                android:inputType="number"
-                android:textSize="20dp"
-                android:hint="Podaj cene..."/>
-            <EditText
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:inputType="number"
-                android:id="@+id/iloscStron"
-                android:hint="Podaj ilość stron..."/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/dodaj"
-                android:text="Dodaj"/>
-        </LinearLayout>
+    <EditText
+        android:id="@+id/cena"
+        android:hint="Cena"
+        android:inputType="numberDecimal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
-    </LinearLayout>
+    <EditText
+        android:id="@+id/strony"
+        android:hint="Liczba stron"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/dodaj"
+        android:text="Dodaj książkę"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/usun"
+        android:text="Usuń zaznaczoną"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <ListView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/lista1"
-    android:layout_weight="1"/>
-</LinearLayout>
+        android:id="@+id/lista"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
+    <Button
+        android:id="@+id/zapisz"
+        android:text="Zapisz zmiany"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
